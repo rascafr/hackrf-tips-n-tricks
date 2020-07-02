@@ -43,4 +43,16 @@ Here what the remote BPSK, or Binary Phase Shift Keying, https://en.wikipedia.or
 
 ## GNU Radio Companion
 
-TODO: use the File Source -> byte -> ICHar To Complex -> QT Sink
+From the extracted raw 8bit file, we can perfom multiple operations in GNU Radio Companion.
+
+First thing to do is to convert the IQ sequence bytes into a real complex value with the `IChar To Complex` bloc.
+
+Next we'll remove the DC offset with the `DC Blocker bloc`, as there is one according to the official HackRF documentation.
+
+> Samples produced by HackRF are measurements of radio waveforms, but the measurement method is prone to a DC bias introduced by HackRF. It's an artifact of the measurement system, not an indication of a received radio signal. DC offset is not unique to HackRF; it is common to all quadrature sampling systems.
+
+![alt text](../assets/images/remote-grc.png)
+
+This will produce the following FFT graph (centered at 864 MHz):
+
+![alt text](../assets/images/remote-fft-grc.png)
