@@ -1,1 +1,2 @@
-grc/top_block.py
+# remove GRC's generated python files
+assets/grc/top_block.py
