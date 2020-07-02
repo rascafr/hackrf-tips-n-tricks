@@ -21,9 +21,9 @@ https://github.com/mossmann/hackrf/blob/master/host/hackrf-tools/src/hackrf_tran
 ```c
 typedef struct 
 {
-    char		chunkID[4]; /* 'data' */
-    uint32_t	chunkSize; /* Size of data in bytes */
-	/* Samples I(8bits) then Q(8bits), I, Q ... */
+    char        chunkID[4]; /* 'data' */
+    uint32_t    chunkSize; /* Size of data in bytes */
+    /* Samples I(8bits) then Q(8bits), I, Q ... */
 } t_DataChunk;
 ```
 
