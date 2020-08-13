@@ -6,4 +6,6 @@ This repository purpose is to keep note of some HackRF / GRC tool methods to rec
 
 ## Pages
 
-- [Remote control analysis](pages/remote-control.md)
+- ✅ [Home surveillance alarm system analysis](pages/alarm-control.md)
+
+- ✍️ [Temperature remote control analysis](pages/remote-control.md)
