@@ -1,2 +1,5 @@
 # remove GRC's generated python files
 assets/grc/top_block.py
+
+# OSX tmp files
+.DS_Store
