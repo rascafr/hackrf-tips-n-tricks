@@ -97,11 +97,107 @@ Instead, we might have a signal modulated using either BPSK (phase) or BFSK (fre
 
 We'll dig into that later...
 
+## Prepare the recorded signals
+
+Since each raw signals IQ data has an offset part, we need to remove it before digging into it. We've done that with Gnu Radio Companion at the beginning of this page, we'll save it as binary files so we can see the real signal waveforms and frequency.
+
+We'll use the following schematic:
+
+![alt text](../assets/images/remote-remove-dc-file.png)
+
+**Note:** Remember to set the `repeat` property of the file source to `No` or your output file size will be infine...
+
+**Note 2:** Because the I and Q parts represent a value that is not a real, we'll divide the resulting amplitude by a constant, `40` here, so the range will be between `-1` and `1`.
+
+**Note 3:** GNU Radio Companion works with complex floating-point numbers, so set the output file extension to `*.cf32` (complex floats, 32 bits). **This is important for the next steps.**
+
+## Extract symbols from the signal modulation
+
+Let's use Inspectrum (https://github.com/miek/inspectrum), which is an awesome tool to analyse recorded I/Q signals.
+
+Once the `cf32` output file is opened, you'll see its spectrum analysis along time.
+
+![alt text](../assets/images/remote-fft-spectrum-time.png)
+
+Beautiful isn't it. Add a frequency plot that is in range between the positive and negative frequency (phases).
+
+![alt text](../assets/images/remote-frequency-along-time.png)
+
+Awesome. Excepted the first dirty and noisy bursts, it looks like this is pure FSK modulation!
+
+Now add cursors from the first high-frequency symbol till the last one, and adjust the count so each symbol is clearly delimited. Here is a zoom on the first symbols, with the cursors around it:
+
+![alt text](../assets/images/remote-cursors-symbols.png)
+
+Let's have a look on what's this signal properties:
+
+- clearly looks like FSK modulation
+- there's 176 symbols, which is 22 bytes
+- the symbol rate is 114.9 kbps, which is very close to the standard 115.2 kbps speed!
+
+For the next steps, we'll assume the positive frequency represents a `1` symbol, and the negative one a `0` symbol.
+
+We won't translate the frequencies values to symbols by ourself.
+
+### Extract the symbol values from *Inspectrum*:
+
+> Right-click on the frequency plot, Extract symbols > Copy to Clipboard
+
+### Translate into binary symbols
+
+Use Excel or OpenOffice Calc, paste the data, and apply this very simple rule:
+
+```excel
+=IF(CELL>0;1;0)
+```
+
+Copy the resulting `1` and `0` and convert it using your calculator or an online tool (https://www.rapidtables.com/convert/number/binary-to-hex.html).
+
+**Repeat the process for one or two different remote keys.**
+
+## Extracted binary payload interpretation
+
+Here's what we got from the previous steps for 3 remote keys:
+
+**Lights ON**
+
+```
+82B8FFFAAAAAAA 2D0F3A2A0B40004301 080100536D40
+```
+
+**Lights OFF**
+
+```
+82B8FFFAAAAAAA 2D0F3A2A0B40004301 0811015A3900
+```
+
+**Store UP**
+
+```
+82B8FFFAAAAAAA 2D0F3A2A0B40004301 086100562700
+```
+
+I separated each payload into 3 parts:
+
+- the part that looks loke a header with *sync* symbols (either `0xAA` or `0x55` are used)
+- the part that doesn't change (might be the receptor address, group and target)
+- the part that changes (arguably the order: on, off, store up...)
+
+---
+
+## Draft part
+
 **To be seen and tested:**
 
 - Manchester code
 - Miller code
 - PLL
 - Costas loop
+- URH - FSK?
 
 A very good research paper about BPSK demodulation: https://www2.eecs.berkeley.edu/Pubs/TechRpts/2017/EECS-2017-91.pdf
+
+**Spoler alert:**
+
+- Simple remote uses `mrf-49xa` (FSK) from Microchip and `ATMEGA 328p` from Atmel
+- HVAC remote uses `Si4421` (FSK) from Silicon Labs and `ATxmega64D3` from Atmel
