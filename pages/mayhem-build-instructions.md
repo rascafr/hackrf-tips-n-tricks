@@ -19,7 +19,26 @@ rm -rf build/*
 
 ## ARM toolchain
 
-Download the `arm-none-eabi-xxx` compilers and likers from the official website (https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm) and extract the files into your home repository.
+Download the `arm-none-eabi-xxx` compilers and likers from the official website (https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm) and extract the files into your home directory.
+
+Ensure you have the correct binary files in your directory:
+
+```bash
+ls /path/to/your/arm-none.macos64_1.17.0/tools/compiler/bin
+
+# should return a list with...
+# arm-none-eabi-cpp
+# arm-none-eabi-c++
+# arm-none-eabi-g++
+# arm-none-eabi-objcopy
+# ...
+```
+
+Then, add the ARM binary files path to your system (temporary, for the current shell only):
+
+```bash
+PATH=$PATH:/path/to/your/arm-none.macos64_1.17.0/tools/compiler/bin
+```
 
 ## macOS tools
 
@@ -65,12 +84,15 @@ make firmware
 
 ### Once the firmware has been built at least once
 
+In the `build` directory:
+
 ```bash
-cd build
 make firmware
 ```
 
 ## Flash it!
+
+Put your HackRF into USB mode, and then, from the `build` directory:
 
 ```bash
 hackrf_spiflash -w firmware/portapack-h1_h2-mayhem.bin
