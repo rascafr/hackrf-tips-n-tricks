@@ -4,8 +4,12 @@
 
 This repository purpose is to keep note of some HackRF / GRC tool methods to record, demodulate and generate waveforms.
 
-## Pages
+## RF / Signal analysis
 
 - ✅ [Home surveillance alarm system analysis](pages/alarm-control.md)
 
 - ✍️ [Temperature remote control analysis](pages/remote-control.md)
+
+## Portapack / Mayhem
+
+- 🔧 [macOS Mayhem firmware building instructions](pages/mayhem-build-instructions.md)
