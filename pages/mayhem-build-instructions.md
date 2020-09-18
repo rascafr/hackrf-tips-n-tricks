@@ -1,4 +1,4 @@
-# Portpack Mayhem build instructions
+# Portapack Mayhem build instructions
 
 Since the performance is really bad under Docker, let's configure our mac so we can build the firmware directly on it.
 
