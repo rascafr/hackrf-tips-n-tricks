@@ -2,11 +2,13 @@
 
 Since the performance is really bad under Docker, let's configure our mac so we can build the firmware directly on it.
 
-**Spoiler alert:** Goes from 8 minutes to 4 seconds compilation time 🕺
+**Spoiler alert:** Goes from 8 minutes to 8 seconds compilation time 🕺
 
 ## Clean directory
 
-The Docker build will leave pre-compilation steps files (`*.a`, `*.d`, `*.o`) that we don't need. Clean everything before moving from the Docker procedure to the native one.
+The Docker build will leave pre-compilation steps files (`*.a`, `*.d`, `*.o`) that we don't need.
+
+Clean everything before moving from the Docker procedure to the native one.
 
 ```bash
 find . -name "*.d" -type f -delete
@@ -82,6 +84,8 @@ cmake ..
 make firmware
 ```
 
+This might take the same time as with the Docker procedure, don't panick.
+
 ### Once the firmware has been built at least once
 
 In the `build` directory:
@@ -89,6 +93,8 @@ In the `build` directory:
 ```bash
 make firmware
 ```
+
+You should see a real difference here 🚀
 
 ## Flash it!
 
