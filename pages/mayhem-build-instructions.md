@@ -103,3 +103,38 @@ Put your HackRF into USB mode, and then, from the `build` directory:
 ```bash
 hackrf_spiflash -w firmware/portapack-h1_h2-mayhem.bin
 ```
+
+## Bonus: Visual Studio Code integration
+
+Since I tend to build, flash and test each firmware iteration very often *(now I can compile it in less than 10 seconds and that there isn't any time left for coffee breaks)*, the best way to save time is to integrate the Portapack build and flash operations into [Visual Studio Code](https://code.visualstudio.com/) by adding a keyboard shortcut to it.
+
+1. Open **Run Build Tasks** (⌘ + Shift + P)
+2. Paste the following JSON configuration file (will be saved as `.vscode/tasks.json`)
+
+```json
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "HackRF Portapack Mayhem firmware build & flash",
+            "type": "shell",
+            "command": "cd build && make firmware && hackrf_spiflash -w firmware/portapack-h1_h2-mayhem.bin",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
+```
+
+3. Set it as default task if it's not already the case
+
+![alt text](../assets/images/vsc-config-task.png)
+
+4. Test it using the build task shortcut! (⌘ + Shift + B)
+
+Now, each time you want to run your freshly written code, you don't need to switch window to the terminal, run the build, then flash the firmware... Just use the build shortcut 🤸‍♂️
+
+**Note:** Remember to put your HackRF/Portapack into USB mode before running the command, otherwise the `hackrf_spiflash` command will obviously fail...
