@@ -74,6 +74,12 @@ Quick fix is to modify the Hackrf's firmware script that uses the Python 3 versi
 
 **Hey 👋** Don't commit this file, we'll keep the changes on your laptop only.
 
+Finally, if not already installed on your machine, run
+
+```bash
+pip3 install pyyaml
+```
+
 ## Compilation time!
 
 ### From scratch:
