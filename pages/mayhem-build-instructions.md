@@ -72,7 +72,15 @@ Quick fix is to modify the Hackrf's firmware script that uses the Python 3 versi
 #!/usr/bin/env python3
 ```
 
-**Hey 👋** Don't commit this file, we'll keep the changes on your laptop only.
+Again, if you're up-to-date with the last HackRF submodule git repository, you might face the same issue.
+
+In `/hackrf/firmware/hackrf-common.cmake` replace line `222` with:
+
+```bash
+COMMAND python3 ${PATH_DFU_PY} ${PROJECT_NAME}
+```
+
+**Hey 👋** Don't commit those files, we'll keep the changes on your laptop only.
 
 Finally, if not already installed on your machine, run
 
