@@ -58,7 +58,12 @@ Under macOS, Python 2.7 will be linked to the `/usr/bin/python` instead of the 3
 
 Because the `/usr/bin/python` is protected, even the `sudo rm`won't work, neither the `chattr` or `chflags`.
 
-Quick fix is to modify the Hackrf's firmware script that uses the Python 3 version, `hackrf/firmware/libopencm3/scripts/irq2nvic_h` (from the *libopencm3* project):
+Quick fix is to modify the Hackrf's firmware script that uses the Python 3 version in those files:
+
+- `hackrf/firmware/libopencm3/scripts/irq2nvic_h`
+- `firmware/tools/extract_cpld_data.py`
+- `firmware/tools/make_spi_image.py`
+- `/hackrf/firmware/hackrf-common.cmake` *(line `220`)*
 
 *Replace*
 
@@ -70,14 +75,6 @@ Quick fix is to modify the Hackrf's firmware script that uses the Python 3 versi
 
 ```python
 #!/usr/bin/env python3
-```
-
-Again, if you're up-to-date with the last HackRF submodule git repository, you might face the same issue.
-
-In `/hackrf/firmware/hackrf-common.cmake` replace line `222` with:
-
-```bash
-COMMAND python3 ${PATH_DFU_PY} ${PROJECT_NAME}
 ```
 
 **Hey 👋** Don't commit those files, we'll keep the changes on your laptop only.
